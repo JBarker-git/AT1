@@ -16,5 +16,15 @@ namespace WikiForms
         {
             InitializeComponent();
         }
+
+        // Global Variables
+        static int row = 12;
+        static int column = 4;
+        string[,] wikiArray = new string[row, column];
+
+        private void addButton_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
