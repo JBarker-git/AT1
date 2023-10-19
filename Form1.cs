@@ -23,7 +23,7 @@ namespace WikiForms
         string[,] wikiArray = new string[row, column];
 
         private void updateListView()
-        {
+        { 
             listView.Items.Clear();
             for (int row = 0;  row < wikiArray.GetLength(0); row++)
             {
@@ -59,6 +59,7 @@ namespace WikiForms
                     wikiArray[row, 1] = category;
                     wikiArray[row, 2] = structure;
                     wikiArray[row, 3] = definition;
+                    updateListView();
                     break;
                 }
             }
@@ -68,6 +69,80 @@ namespace WikiForms
         private void buttonClear_Click(object sender, EventArgs e)
         {
             clearTextBoxes();
+        }
+
+        private void buttonEdit_Click(object sender, EventArgs e)
+        {
+            if (listView.SelectedItems.Count > 0)
+            {
+                ListViewItem selectedItem = listView.SelectedItems[0];
+                int selectedIndex = listView.Items.IndexOf(selectedItem);
+
+                String name = textBoxName.Text;
+                String category = textBoxCategory.Text;
+                String structure = textBoxStructure.Text;
+                String definition = textBoxDefinition.Text;
+
+                wikiArray[selectedIndex, 0] = name;
+                wikiArray[selectedIndex, 1] = category;
+                wikiArray[selectedIndex, 2] = structure;
+                wikiArray[selectedIndex, 3] = definition;
+
+                updateListView();
+            }
+        }
+
+        private void buttonDelete_Click(object sender, EventArgs e)
+        {
+            if (listView.SelectedItems.Count > 0)
+            {
+                ListViewItem selectedItem = listView.SelectedItems[0];
+                int selectedIndex = listView.Items.IndexOf(selectedItem);
+
+                DialogResult result = MessageBox.Show("Are you sure you want to delete this item?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if (result == DialogResult.Yes)
+                {
+                    listView.Items.Remove(selectedItem);
+
+                    for (int i = 0; i < 4; i++)
+                    {
+                        wikiArray[selectedIndex, i] = null;
+                    }
+
+                    clearTextBoxes();
+                }
+            }
+        }
+
+
+        private void BubbleSortByName()
+        {
+            int rows = wikiArray.GetLength(0);
+
+            for (int i = 0; i < rows - 1; i++)
+            {
+                for (int j = 0; j < rows - i - j; j++)
+                {
+                    string name1 = wikiArray[j, 0];
+                    string name2 = wikiArray[j + 1, 0];
+                    
+                    if (string.Compare(name1, name2, StringComparison.Ordinal) > 0)
+                    {
+                        swapRows(j, j + 1);
+                    }
+                }
+            }
+        }
+
+        private void swapRows(int row1, int row2)
+        {
+            for (int col = 0; col < 4; col++)
+            {
+                string temp = wikiArray[row1, col];
+                wikiArray[row1, col] = wikiArray[row2, col];
+                wikiArray[row2, col] = temp;
+            }
         }
     }
 }
