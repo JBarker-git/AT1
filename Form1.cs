@@ -227,7 +227,7 @@ namespace WikiForms
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Error loading data: " + ex.Message, "Load Data Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    MessageBox.Show("Error loading data: " + ex.Message, "Load Data Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
